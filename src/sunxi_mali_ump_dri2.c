@@ -254,6 +254,10 @@ static DRI2Buffer2Ptr MaliDRI2CreateBuffer(DrawablePtr  pDraw,
     if (pDraw->bitsPerPixel != 32)
         can_use_overlay = FALSE;
 
+    /* Don't waste disp layer on some strange 1x1 window created by gnome-shell */
+    if (pDraw->width == 1 && pDraw->height == 1)
+        can_use_overlay = FALSE;
+
     /* The default common values */
     buffer->attachment    = attachment;
     buffer->driverPrivate = privates;
